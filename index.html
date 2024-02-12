@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina Quien</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <p class="title">Adivina Quien Genshin</p>
+        <div class="characterSelect">
+            <p>El personaje de tu compa: 
+                <template v-if="yourCharacter.name">{{ yourCharacter.name }}</template>
+                <template v-else>Sin personaje</template>
+            </p>
+
+            <template v-if="yourCharacter.name">
+                <img :src="'./resources/img/' + yourCharacter.img" :alt="yourCharacter.name + ' Image'">
+                <div>
+                    <input type="checkbox" name="cbLeaks" id="cbLeaks" v-model="includeLeaks">
+                    <label for="cbLeaks"> Incluir leaks?</label>
+                </div>
+                <button @click="clickAsignCharacter()">Cambiar personaje</button>
+            </template>
+            <template v-else>
+                <img src="./resources/img/custom_male.png" alt="custom_male">
+                <div>
+                    <input type="checkbox" name="cbLeaks" id="cbLeaks" v-model="includeLeaks">
+                    <label for="cbLeaks"> Incluir leaks?</label>
+                </div>
+                <button @click="clickAsignCharacter()">Asignar personaje</button>
+            </template>
+        </div>
+        <div class="charactersContainer">
+            <template v-for="(character, index) in characters">
+                <div class="characterBox" v-if="character.leak == includeLeaks || character.leak == false" @click="character.deleted = !character.deleted">
+                    <img :src="'./resources/img/' + character.img" :alt="character.name + ' Image'" :class="character.deleted ? 'deleted' : ''">
+                    <p :class="character.deleted ? 'deleted' : ''">{{ character.name }}</p>
+                </div>
+            </template>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="javascript.js"></script>
+</body>
+</html>
